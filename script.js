@@ -24,22 +24,30 @@ function calculateEuler() {
       const yn = yValues[i];
   
       // Paso de predicción
-      const yPred = yn + h * f(xn, yn);
+      const fxnyn = f(xn, yn); // f(xn, yn)
+      const yPred = yn + h * fxnyn; // y_pred = yn + h * f(xn, yn)
   
       // Paso de corrección
-      const yn1 = yn + (h / 2) * (f(xn, yn) + f(xn + h, yPred));
+      const fxn1ypred = f(xn + h, yPred); // f(xn + h, y_pred)
+      const yn1 = yn + (h / 2) * (fxnyn + fxn1ypred); // yn1 = yn + (h/2) * [f(xn, yn) + f(xn + h, y_pred)]
   
       // Guardar los nuevos valores
       xValues.push(xn + h);
       yValues.push(yn1);
   
-      // Mostrar los pasos con MathJax
+      // Mostrar los pasos con MathJax y valores intermedios
       const stepText = `
         <div class="math">
           <strong>Iteración ${i + 1}:</strong><br>
-          - \\( x_{${i}} = ${xn.toFixed(2)}, \\quad y_{${i}} = ${yn.toFixed(2)} \\)<br>
-          - Predicción: \\( y_{\\text{pred}} = y_{${i}} + h \\cdot f(x_{${i}}, y_{${i}}) = ${yPred.toFixed(2)} \\)<br>
-          - Corrección: \\( y_{${i + 1}} = y_{${i}} + \\frac{h}{2} \\left[ f(x_{${i}}, y_{${i}}) + f(x_{${i + 1}}, y_{\\text{pred}}) \\right] = ${yn1.toFixed(2)} \\)
+          - Valores actuales: \\( x_{${i}} = ${xn.toFixed(2)}, \\quad y_{${i}} = ${yn.toFixed(2)} \\)<br>
+          - Cálculo de la predicción:<br>
+            \\[
+            y_{\\text{pred}} = y_{${i}} + h \\cdot f(x_{${i}}, y_{${i}}) = ${yn.toFixed(2)} + ${h.toFixed(2)} \\cdot ${fxnyn.toFixed(2)} = ${yPred.toFixed(2)}
+            \\]
+          - Cálculo de la corrección:<br>
+            \\[
+            y_{${i + 1}} = y_{${i}} + \\frac{h}{2} \\left[ f(x_{${i}}, y_{${i}}) + f(x_{${i + 1}}, y_{\\text{pred}}) \\right] = ${yn.toFixed(2)} + \\frac{${h.toFixed(2)}}{2} \\left[ ${fxnyn.toFixed(2)} + ${fxn1ypred.toFixed(2)} \\right] = ${yn1.toFixed(2)}
+            \\]
         </div>
       `;
       stepsContainer.innerHTML += stepText;

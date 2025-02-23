@@ -82,21 +82,26 @@
     padding: 15px;
     border: 1px solid var(--green);
     max-height: 500px;
-    overflow-y: auto;
+    overflow-y: auto; /* Scroll vertical si es necesario */
+    word-wrap: break-word; /* Ajustar texto automáticamente */
+    overflow-wrap: break-word; /* Alternativa moderna */
+    text-align: left; /* Alinear texto a la izquierda */
   }
   
   .steps-container h2 {
     margin-top: 0;
     color: var(--text-color);
+    text-align: left; /* Alinear título a la izquierda */
   }
   
   #steps {
     font-family: Arial, sans-serif;
     color: var(--text-color);
+    line-height: 1.6; /* Mejorar la legibilidad */
+    text-align: left; /* Alinear texto a la izquierda */
   }
   
-  /* Estilos para MathJax */
   .math {
-    font-size: 1.2em;
-    margin: 10px 0;
+    margin-bottom: 10px; /* Espacio reducido entre pasos */
+    white-space: normal; /* Evitar espacios innecesarios */
   }
