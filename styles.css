@@ -33,10 +33,26 @@
   }
   
   .container {
-    max-width: 1200px;
-    margin: 20px auto;
     padding: 20px;
     background-color: var(--gray);
+  }
+  
+  .main-content {
+    display: flex;
+    gap: 35px; /* Espacio entre las columnas */
+  }
+  
+  .left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espacio entre los inputs y la gráfica */
+  }
+  
+  .right-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
   }
   
   .input-group {
@@ -66,26 +82,22 @@
     background-color: var(--cambridge);
   }
   
-  .results-container {
-    display: flex;
-    margin-top: 20px;
-  }
-  
   .chart-container {
-    flex: 1;
-    margin-right: 20px;
-  }
-  
-  .steps-container {
-    flex: 1;
     background-color: var(--cambridge);
     padding: 15px;
     border: 1px solid var(--green);
-    max-height: 500px;
-    overflow-y: auto; /* Scroll vertical si es necesario */
+  }
+  
+  .steps-container {
+    background-color: var(--cambridge);
+    padding: 15px;
+    border: 1px solid var(--green);
+    overflow-y: auto; /* Scroll vertical interno */
     word-wrap: break-word; /* Ajustar texto automáticamente */
     overflow-wrap: break-word; /* Alternativa moderna */
     text-align: left; /* Alinear texto a la izquierda */
+    flex: 1; /* Ocupa todo el espacio disponible en la columna derecha */
+    max-height: calc(100vh - 200px); /* Altura máxima basada en la altura de la ventana */
   }
   
   .steps-container h2 {
