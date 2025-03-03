@@ -117,3 +117,33 @@
     margin-bottom: 10px; /* Espacio reducido entre pasos */
     white-space: normal; /* Evitar espacios innecesarios */
   }
+
+.table-container {
+  margin-top: 20px;
+  background-color: var(--cambridge);
+  padding: 15px;
+  border: 1px solid var(--green);
+  overflow-x: auto; /* Scroll horizontal si es necesario */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th, table td {
+  padding: 10px;
+  border: 1px solid var(--green);
+  text-align: center;
+}
+
+table th {
+  background-color: var(--green);
+  color: black;
+}
+
+table td {
+  background-color: var(--cambridge);
+  color: var(--text-color);
+}

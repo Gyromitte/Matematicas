@@ -6,21 +6,20 @@
   <link rel="stylesheet" href="styles.css">
   <title>Método de Euler Mejorado</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Incluir MathJax -->
+  <!-- MathJax -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <div class="navbar">
     <a href="#euler-mejorado">Euler Mejorado</a>
-    <a href="#runge-kutta">Runge Kutta</a>
+    <a href="#runge-kutta">Runge Kutta 4to orden</a>
     <a href="#newton-raphson">Newton Raphson</a>
   </div>
 
   <div class="container">
-    
     <div class="main-content">
-      <!-- Columna izquierda: Inputs y gráfica -->
+      <!-- Left column -->
       <div class="left-column">
         <h1>Método de Euler Mejorado</h1>
         <div class="input-group">
@@ -43,9 +42,26 @@
         <div class="chart-container">
           <canvas id="grafica"></canvas>
         </div>
+        <div class="table-container" id="table-container">
+          <h2>Resultados</h2>
+          <table id="results-table">
+            <thead>
+              <tr>
+                <th>Iteración</th>
+                <th>x</th>
+                <th>y</th>
+                <th>Predicción (\( y_{\text{pred}} \))</th>
+                <th>Corrección (\( y_{n+1} \))</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Tables generates dinamically-->
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- Columna derecha: Pasos realizados -->
+      <!-- Right Column -->
       <div class="right-column">
         <div class="steps-container" id="steps-container">
           <h2>Pasos Realizados</h2>
