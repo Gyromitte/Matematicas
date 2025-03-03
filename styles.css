@@ -12,6 +12,10 @@
     background-color: var(--gray);
     color: var(--text-color);
   }
+
+  .hidden {
+    display: none;
+  }
   
   .navbar {
     display: flex;

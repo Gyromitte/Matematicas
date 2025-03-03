@@ -1,3 +1,32 @@
+// Función para cambiar entre pestañas
+function switchTab(tabId) {
+  // Ocultar todos los contenedores de pestañas
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.add('hidden');
+  });
+
+  // Mostrar la pestaña seleccionada
+  const selectedTab = document.getElementById(tabId);
+  if (selectedTab) {
+    selectedTab.classList.remove('hidden');
+  }
+}
+
+// Escuchar clics en los enlaces del navbar
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    const tabId = link.getAttribute('data-tab'); // Obtener el ID de la pestaña
+    switchTab(tabId); // Cambiar a la pestaña seleccionada
+  });
+});
+
+// Mostrar la pestaña inicial (Euler Mejorado) al cargar la página
+window.addEventListener('load', () => {
+  switchTab('euler-mejorado');
+});
+
+
 function calculateEuler() {
   // Obtener valores de los inputs
   const x0 = parseFloat(document.getElementById('x0').value);
