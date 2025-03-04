@@ -27,6 +27,14 @@
           <!-- Columna izquierda (Inputs) -->
           <div class="left-column">
             <h1>Método de Euler Mejorado</h1>
+            <p class="description">
+              Este método utiliza la siguiente fórmula para aproximar la solución de ecuaciones diferenciales ordinarias:<br>
+              \[
+              y_{n+1} = y_n + \frac{h}{2} \left( f(x_n, y_n) + f(x_{n+1}, y_{\text{pred}}) \right)
+              \]
+              donde \( y_{\text{pred}} = y_n + h f(x_n, y_n) \) es un valor de predicción.  
+              Ingrese los valores iniciales de \(x\) y \(y\), el tamaño del paso \(h\) y el número de iteraciones.
+            </p>
             <div class="input-group">
               <label for="x0">Valor inicial de x (x₀):</label>
               <input type="number" id="x0" value="0" step="0.1">
@@ -83,6 +91,26 @@
       <!-- Columna izquierda (Inputs) -->
       <div class="left-column">
         <h1>Método de Runge Kutta 4to Orden</h1>
+        <p class="description">
+          Este método emplea cuatro valores intermedios para calcular la solución con mayor precisión:<br>
+          \[
+          y_{n+1} = y_n + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4)
+          \]
+          donde:
+          \[
+          k_1 = f(x_n, y_n)
+          \]
+          \[
+          k_2 = f(x_n + \frac{h}{2}, y_n + \frac{h}{2} k_1)
+          \]
+          \[
+          k_3 = f(x_n + \frac{h}{2}, y_n + \frac{h}{2} k_2)
+          \]
+          \[
+          k_4 = f(x_n + h, y_n + h k_3)
+          \]
+          Ingrese los valores iniciales de \(x\) y \(y\), el tamaño del paso \(h\) y el número de iteraciones.
+        </p>
         <div class="input-group">
           <label for="rk-x0">Valor inicial de x (x₀):</label>
           <input type="number" id="rk-x0" value="0" step="0.1">
@@ -141,6 +169,14 @@
     <!-- Columna izquierda (Inputs) -->
     <div class="left-column">
       <h1>Método de Newton Raphson</h1>
+      <p class="description">
+        Se usa para encontrar raíces de funciones mediante la iteración de la siguiente ecuación:<br>
+        \[
+        x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+        \]
+        Ingrese la función \( f(x) \), un valor inicial \( x_0 \) y una tolerancia.  
+        El método continuará iterando hasta que \( |f(x_n)| \) sea menor que la tolerancia especificada.
+      </p>
       <div class="input-group">
         <label for="nr-funcion">Función \( f(x) \):</label>
         <input type="text" id="nr-funcion" placeholder="Ejemplo: x^2 - 2">
