@@ -13,6 +13,11 @@
     color: var(--text-color);
   }
 
+  h2{
+    text-align: center;
+    margin: 0;
+  }
+
   .hidden {
     display: none;
   }
@@ -35,6 +40,21 @@
     background-color: var(--green);
     color: black;
   }
+
+  .nav-link {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .nav-link.active {
+    background: var(--green); /* Color de fondo para el tab activo */
+    color: black;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
   
   .container {
     padding: 20px;
@@ -43,21 +63,34 @@
   
   .main-content {
     display: flex;
-    gap: 35px; /* Espacio entre las columnas */
+    flex-wrap: wrap; /* Permite que los elementos se reorganicen en pantallas pequeñas */
   }
   
   .left-column {
     flex: 1;
+    max-width: 40%; 
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Espacio entre los inputs y la gráfica */
+    gap: 10px;
+    margin-right: 20px;
   }
   
   .right-column {
     flex: 2;
+    max-width: 60%; 
     display: flex;
     flex-direction: column;
   }
+  
+  .steps-container {
+    width: 100%; /* Ocupa el 100% del ancho */
+    margin-top: 20px;
+    padding: 5px;
+    background-color: var(--cambridge);
+    border: 1px solid var(--green);
+    text-align: left;
+  }
+  
   
   .input-group {
     margin-bottom: 15px;
@@ -92,22 +125,11 @@
     border: 1px solid var(--green);
   }
   
-  .steps-container {
-    background-color: var(--cambridge);
-    padding: 15px;
-    border: 1px solid var(--green);
-    overflow-y: auto; /* Scroll vertical interno */
-    word-wrap: break-word; /* Ajustar texto automáticamente */
-    overflow-wrap: break-word; /* Alternativa moderna */
-    text-align: left; /* Alinear texto a la izquierda */
-    flex: 1; /* Ocupa todo el espacio disponible en la columna derecha */
-    max-height: calc(100vh - 200px); /* Altura máxima basada en la altura de la ventana */
-  }
-  
   .steps-container h2 {
     margin-top: 0;
+    padding: 0;
     color: var(--text-color);
-    text-align: left; /* Alinear título a la izquierda */
+    text-align: center;
   }
   
   #steps {

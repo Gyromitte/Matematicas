@@ -1,31 +1,38 @@
 /* TABS BEHAVIOR */
 function switchTab(tabId) {
-  // Ocultar todos los contenedores de pestañas
-  document.querySelectorAll('.tab-content').forEach(tab => {
-    tab.classList.add('hidden');
-  });
+    // Ocultar todas las pestañas
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.add('hidden');
+    });
 
-  // Mostrar la pestaña seleccionada
-  const selectedTab = document.getElementById(tabId);
-  if (selectedTab) {
-    selectedTab.classList.remove('hidden');
+    // Mostrar la pestaña seleccionada
+    const selectedTab = document.getElementById(tabId);
+    if (selectedTab) {
+      selectedTab.classList.remove('hidden');
+    }
+
+    // Resaltar la pestaña activa en el navbar
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active'); // Remover la clase activa de todas las pestañas
+      if (link.getAttribute('data-tab') === tabId) {
+        link.classList.add('active'); // Agregar la clase activa solo al tab seleccionado
+      }
+    });
   }
-}
 
-// Escuchar clics en los enlaces del navbar
-document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', (event) => {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-    const tabId = link.getAttribute('data-tab'); // Obtener el ID de la pestaña
-    switchTab(tabId); // Cambiar a la pestaña seleccionada
+  // Escuchar clics en los enlaces del navbar
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault(); // Evitar que el enlace recargue la página
+      const tabId = link.getAttribute('data-tab'); // Obtener el ID de la pestaña
+      switchTab(tabId); // Cambiar a la pestaña seleccionada
+    });
   });
-});
 
-// Mostrar la pestaña inicial (Euler Mejorado) al cargar la página
-window.addEventListener('load', () => {
-  switchTab('euler-mejorado');
+  // Mostrar la pestaña inicial al cargar la página y resaltar su tab
+  window.addEventListener('load', () => {
+    switchTab('euler-mejorado');
 });
-
 
 /* EULER MEJORADO */
 function calculateEuler() {
@@ -291,7 +298,7 @@ function calculateNewtonRaphson() {
   const funcion = document.getElementById('nr-funcion').value;
   const x0 = parseFloat(document.getElementById('nr-x0').value);
   const tolerancia = parseFloat(document.getElementById('nr-tolerancia').value);
-  const maxIter = parseInt(document.getElementById('nr-max-iter').value);
+  const maxIter = 100; // Valor predeterminado para el número máximo de iteraciones
 
   // Calcular la derivada automáticamente usando math.js
   let df;
@@ -334,13 +341,14 @@ function calculateNewtonRaphson() {
     const stepText = `
       <div class="math">
         <strong>Iteración ${iteracion + 1}:</strong><br>
-        - \( x_{${iteracion}} = ${xn.toFixed(4)} \)<br>
-        - \( f(x_{${iteracion}}) = ${fxn.toFixed(4)} \)<br>
-        - \( f'(x_{${iteracion}}) = ${dfxn.toFixed(4)} \)<br>
-        - \( x_{${iteracion + 1}} = x_{${iteracion}} - \\frac{f(x_{${iteracion}})}{f'(x_{${iteracion}})} = ${xn.toFixed(4)} - \\frac{${fxn.toFixed(4)}}{${dfxn.toFixed(4)}} = ${xn1.toFixed(4)} \)
+        - \\( x_{${iteracion}} = ${xn.toFixed(4)} \\)<br>
+        - \\( f(x_{${iteracion}}) = ${fxn.toFixed(4)} \\)<br>
+        - \\( f'(x_{${iteracion}}) = ${dfxn.toFixed(4)} \\)<br>
+        - \\( x_{${iteracion + 1}} = x_{${iteracion}} - \\frac{f(x_{${iteracion}})}{f'(x_{${iteracion}})} = ${xn.toFixed(4)} - \\frac{${fxn.toFixed(4)}}{${dfxn.toFixed(4)}} = ${xn1.toFixed(4)} \\)
       </div>
     `;
     stepsContainer.innerHTML += stepText;
+  
 
     // Agregar fila a la tabla
     const row = `
@@ -369,7 +377,9 @@ function calculateNewtonRaphson() {
   }
 
   // Forzar a MathJax a reprocesar el contenido
-  if (MathJax.typeset) {
-    MathJax.typeset();
+  if (window.MathJax) {
+    MathJax.typesetPromise([stepsContainer]).then(() => {
+      console.log("MathJax renderizado correctamente.");
+    }).catch((err) => console.log("Error en MathJax:", err));
   }
 }

@@ -21,61 +21,66 @@
 
   <div class="container">
     <!-- Contenedor para Euler Mejorado -->
-    <div id="euler-mejorado" class="tab-content">
-      <div class="main-content">
-        <div class="left-column">
-          <h1>Método de Euler Mejorado</h1>
-          <div class="input-group">
-            <label for="x0">Valor inicial de x (x₀):</label>
-            <input type="number" id="x0" value="0" step="0.1">
+    <div class="container">
+      <div id="euler-mejorado" class="tab-content">
+        <div class="main-content">
+          <!-- Columna izquierda (Inputs) -->
+          <div class="left-column">
+            <h1>Método de Euler Mejorado</h1>
+            <div class="input-group">
+              <label for="x0">Valor inicial de x (x₀):</label>
+              <input type="number" id="x0" value="0" step="0.1">
+            </div>
+            <div class="input-group">
+              <label for="y0">Valor inicial de y (y₀):</label>
+              <input type="number" id="y0" value="1" step="0.1">
+            </div>
+            <div class="input-group">
+              <label for="h">Tamaño del paso (h):</label>
+              <input type="number" id="h" value="0.1" step="0.01">
+            </div>
+            <div class="input-group">
+              <label for="n">Número de pasos (n):</label>
+              <input type="number" id="n" value="10">
+            </div>
+            <button onclick="calculateEuler()">Calcular</button>
           </div>
-          <div class="input-group">
-            <label for="y0">Valor inicial de y (y₀):</label>
-            <input type="number" id="y0" value="1" step="0.1">
+    
+          <!-- Columna derecha (Tablas) -->
+          <div class="right-column">
+            <div class="table-container" id="table-container">
+              <h2>Resultados</h2>
+              <table id="results-table">
+                <thead>
+                  <tr>
+                    <th>Iteración</th>
+                    <th>x</th>
+                    <th>y</th>
+                    <th>Predicción (\( y_{\text{pred}} \))</th>
+                    <th>Corrección (\( y_{n+1} \))</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Datos generados dinámicamente -->
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="input-group">
-            <label for="h">Tamaño del paso (h):</label>
-            <input type="number" id="h" value="0.1" step="0.01">
-          </div>
-          <div class="input-group">
-            <label for="n">Número de pasos (n):</label>
-            <input type="number" id="n" value="10">
-          </div>
-          <button onclick="calculateEuler()">Calcular</button>
-          <div class="chart-container">
-            <canvas id="grafica"></canvas>
-          </div>
-          <div class="table-container" id="table-container">
-            <h2>Resultados</h2>
-            <table id="results-table">
-              <thead>
-                <tr>
-                  <th>Iteración</th>
-                  <th>x</th>
-                  <th>y</th>
-                  <th>Predicción (\( y_{\text{pred}} \))</th>
-                  <th>Corrección (\( y_{n+1} \))</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Tables generates dinamically-->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="right-column">
-          <div class="steps-container" id="steps-container">
-            <h2>Pasos Realizados</h2>
-            <div id="steps"></div>
-          </div>
+        </div> 
+    
+        <!-- Pasos abajo (100% ancho) -->
+        <div class="steps-container" id="steps-container">
+          <h2>Pasos Realizados</h2>
+          <div id="steps"></div>
         </div>
       </div>
     </div>
+    
 
   <!-- Contenedor para Runge Kutta -->
   <div id="runge-kutta" class="tab-content hidden">
     <div class="main-content">
+      <!-- Columna izquierda (Inputs) -->
       <div class="left-column">
         <h1>Método de Runge Kutta 4to Orden</h1>
         <div class="input-group">
@@ -95,9 +100,10 @@
           <input type="number" id="rk-n" value="10">
         </div>
         <button onclick="calculateRungeKutta()">Calcular</button>
-        <div class="chart-container">
-          <canvas id="rk-grafica"></canvas>
-        </div>
+      </div>
+  
+      <!-- Columna derecha (Resultados) -->
+      <div class="right-column">
         <div class="table-container" id="rk-table-container">
           <h2>Resultados</h2>
           <table id="rk-results-table">
@@ -114,24 +120,25 @@
               </tr>
             </thead>
             <tbody>
-              <!-- Las filas se generarán dinámicamente -->
+              <!-- Datos generados dinámicamente -->
             </tbody>
           </table>
         </div>
       </div>
-
-      <div class="right-column">
-        <div class="steps-container" id="rk-steps-container">
-          <h2>Pasos Realizados</h2>
-          <div id="rk-steps"></div>
-        </div>
-      </div>
+    </div> 
+  
+    <!-- Pasos abajo (100% ancho) -->
+    <div class="steps-container" id="rk-steps-container">
+      <h2>Pasos Realizados</h2>
+      <div id="rk-steps"></div>
     </div>
   </div>
+  
 
 <!-- Contenedor para Newton Raphson -->
 <div id="newton-raphson" class="tab-content hidden">
   <div class="main-content">
+    <!-- Columna izquierda (Inputs) -->
     <div class="left-column">
       <h1>Método de Newton Raphson</h1>
       <div class="input-group">
@@ -146,14 +153,14 @@
         <label for="nr-tolerancia">Tolerancia:</label>
         <input type="number" id="nr-tolerancia" value="0.0001" step="0.0001">
       </div>
-      <div class="input-group">
-        <label for="nr-max-iter">Número máximo de iteraciones:</label>
-        <input type="number" id="nr-max-iter" value="10">
-      </div>
       <button onclick="calculateNewtonRaphson()">Calcular</button>
       <div id="nr-derivada-calculada">
         <strong>Derivada calculada:</strong> <span id="nr-derivada-texto"></span>
       </div>
+    </div>
+
+    <!-- Columna derecha (Resultados) -->
+    <div class="right-column">
       <div class="table-container" id="nr-table-container">
         <h2>Resultados</h2>
         <table id="nr-results-table">
@@ -167,20 +174,20 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Las filas se generarán dinámicamente -->
+            <!-- Datos generados dinámicamente -->
           </tbody>
         </table>
       </div>
     </div>
+  </div> 
 
-    <div class="right-column">
-      <div class="steps-container" id="nr-steps-container">
-        <h2>Pasos Realizados</h2>
-        <div id="nr-steps"></div>
-      </div>
-    </div>
+  <!-- Pasos abajo (100% ancho) -->
+  <div class="steps-container" id="nr-steps-container">
+    <h2>Pasos Realizados</h2>
+    <div id="nr-steps"></div>
   </div>
 </div>
+
 
   <script src="script.js"></script>
 </body>
