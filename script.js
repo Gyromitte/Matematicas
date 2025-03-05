@@ -42,6 +42,21 @@ function calculateEuler() {
   const h = parseFloat(document.getElementById('h').value);
   const n = parseInt(document.getElementById('n').value);
 
+  if (isNaN(x0) || isNaN(y0) || isNaN(h) || isNaN(n)) {
+    alert("Por favor, ingresa valores numéricos válidos en todos los campos.");
+    return;
+  }
+
+  if (h <= 0) {
+    alert("El valor de h debe ser mayor que cero.");
+    return;
+  }
+
+  if (n <= 0) {
+    alert("El número de iteraciones (n) debe ser mayor que cero.");
+    return;
+  }
+
   // Definir la EDO: dy/dx = f(x, y)
   function f(x, y) {
     return x + y; // Ejemplo: dy/dx = x + y
@@ -159,6 +174,21 @@ function calculateRungeKutta() {
   const y0 = parseFloat(document.getElementById('rk-y0').value);
   const h = parseFloat(document.getElementById('rk-h').value);
   const n = parseInt(document.getElementById('rk-n').value);
+
+  if (isNaN(x0) || isNaN(y0) || isNaN(h) || isNaN(n)) {
+    alert("Por favor, ingresa valores numéricos válidos en todos los campos.");
+    return;
+  }
+
+  if (h <= 0) {
+    alert("El valor de h debe ser mayor que cero.");
+    return;
+  }
+
+  if (n <= 0) {
+    alert("El número de iteraciones (n) debe ser mayor que cero.");
+    return;
+  }
 
   // Definir la EDO: dy/dx = f(x, y)
   function f(x, y) {
@@ -295,10 +325,29 @@ function graficarResultadosRungeKutta(xValues, yValues) {
 /* NEWTWON RAPHSON */
 function calculateNewtonRaphson() {
   // Obtener valores de los inputs
-  const funcion = document.getElementById('nr-funcion').value;
+  let funcion = document.getElementById('nr-funcion').value;
   const x0 = parseFloat(document.getElementById('nr-x0').value);
   const tolerancia = parseFloat(document.getElementById('nr-tolerancia').value);
   const maxIter = 100; // Valor predeterminado para el número máximo de iteraciones
+
+  // Reemplazar ** por ^ para que math.js lo entienda
+  funcion = funcion.replace(/\*\*/g, '^');
+
+  // Validaciones
+  if (isNaN(x0) || isNaN(tolerancia)) {
+    alert("Por favor, ingresa valores numéricos válidos en los campos de x0 y tolerancia.");
+    return;
+  }
+
+  if (tolerancia <= 0) {
+    alert("La tolerancia debe ser mayor que cero.");
+    return;
+  }
+
+  if (funcion.trim() === "") {
+    alert("Por favor, ingresa una función válida.");
+    return;
+  }
 
   // Calcular la derivada automáticamente usando math.js
   let df;
@@ -348,7 +397,6 @@ function calculateNewtonRaphson() {
       </div>
     `;
     stepsContainer.innerHTML += stepText;
-  
 
     // Agregar fila a la tabla
     const row = `
