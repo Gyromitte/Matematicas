@@ -91,7 +91,7 @@
     width: 100%; /* Ocupa el 100% del ancho */
     margin-top: 20px;
     padding: 5px;
-    background-color: var(--cambridge);
+    background-color: var(--gray);
     border: 1px solid var(--green);
     border-radius: 15px;
     text-align: left;
@@ -153,7 +153,7 @@
 
 .table-container {
   margin-top: 20px;
-  background-color: var(--cambridge);
+  background-color: var(--gray);
   padding: 15px;
   border: 1px solid var(--green);
   border-radius: 15px;
@@ -169,12 +169,13 @@ table {
 table th, table td {
   padding: 10px;
   border: 1px solid var(--green);
+  background-color: var(--gray) !important;
   text-align: center;
 }
 
 table th {
   background-color: var(--green);
-  color: black;
+  color: white;
 }
 
 table td {

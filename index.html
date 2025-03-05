@@ -170,13 +170,18 @@
     <div class="left-column">
       <h1>Método de Newton Raphson</h1>
       <p class="description">
-        Se usa para encontrar raíces de funciones mediante la iteración de la siguiente ecuación:<br>
+        Este método se utiliza para encontrar raíces de funciones \( f(x) \) de forma iterativa, usando la ecuación:<br>
         \[
         x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
         \]
-        Ingrese la función \( f(x) \), un valor inicial \( x_0 \) y una tolerancia.  
-        El método continuará iterando hasta que \( |f(x_n)| \) sea menor que la tolerancia especificada.
+        Para usar este método, debe ingresar los siguientes valores:  
       </p>
+      <ul class="description-list">
+        <li><strong>Función \( f(x) \):</strong> La ecuación cuyo valor de \( x \) queremos encontrar cuando \( f(x) = 0 \). Ejemplo: \( x^2 - 2 \).</li>
+        <li><strong>Valor inicial \( x_0 \):</strong> Un valor aproximado donde se cree que está la raíz.</li>
+        <li><strong>Tolerancia:</strong> Un valor pequeño que determina la precisión del resultado.  
+          El método se detiene cuando \( |f(x_n)| \) es menor que la tolerancia.</li>
+      </ul>
       <div class="input-group">
         <label for="nr-funcion">Función \( f(x) \):</label>
         <input type="text" id="nr-funcion" placeholder="Ejemplo: x^2 - 2">
