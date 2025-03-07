@@ -126,165 +126,111 @@ function calculateEuler() {
   }, 100);
 }
 
-
-  // Graficar los resultados
-  graficarResultados(xValues, yValues);
-
-
-
 /* RUNGE KUTTA 4TO ORDEN */
 function calculateRungeKutta() {
+  // Obtener la función f(x, y) ingresada por el usuario
+  const fString = document.getElementById('rk-function').value;
+
+  // Asegurar que la función usa `Math.pow` en lugar de `^`
+  const safeFString = fString.replace(/\^/g, "**");
+
+  // Crear función segura usando `Math`
+  const f = new Function("x", "y", `with (Math) { return ${safeFString}; }`);
+
   // Obtener valores de los inputs
   const x0 = parseFloat(document.getElementById('rk-x0').value);
   const y0 = parseFloat(document.getElementById('rk-y0').value);
   const h = parseFloat(document.getElementById('rk-h').value);
-  const n = parseInt(document.getElementById('rk-n').value);
+  const xnFinal = parseFloat(document.getElementById('rk-xn').value);
 
-  if (isNaN(x0) || isNaN(y0) || isNaN(h) || isNaN(n)) {
-    alert("Por favor, ingresa valores numéricos válidos en todos los campos.");
-    return;
+  // Validar entradas
+  if (isNaN(x0) || isNaN(y0) || isNaN(h) || isNaN(xnFinal)) {
+      alert("Por favor, ingresa valores numéricos válidos en todos los campos.");
+      return;
   }
-
   if (h <= 0) {
-    alert("El valor de h debe ser mayor que cero.");
-    return;
+      alert("El valor de h debe ser mayor que cero.");
+      return;
+  }
+  if (xnFinal <= x0) {
+      alert("El valor final xn debe ser mayor que x0.");
+      return;
   }
 
-  if (n <= 0) {
-    alert("El número de iteraciones (n) debe ser mayor que cero.");
-    return;
-  }
+  // Mostrar valores iniciales en la consola
+  console.log("Valores iniciales:");
+  console.log(`x0 = ${x0}, y0 = ${y0}, h = ${h}, xnFinal = ${xnFinal}`);
 
-  // Definir la EDO: dy/dx = f(x, y)
-  function f(x, y) {
-    return x + y; // Ejemplo: dy/dx = x + y
-  }
+  // Calcular el número de iteraciones
+  const n = Math.ceil((xnFinal - x0) / h);
 
   // Arrays para almacenar los resultados
   const xValues = [x0];
   const yValues = [y0];
 
-  // Contenedores para mostrar los pasos y la tabla
-  const stepsContainer = document.getElementById('rk-steps');
-  const tableBody = document.querySelector('#rk-results-table tbody');
-  stepsContainer.innerHTML = ''; // Limpiar pasos anteriores
-  tableBody.innerHTML = ''; // Limpiar tabla anterior
+  // Limpiar contenido previo
+  document.getElementById('rk-steps').innerHTML = '';
+  document.querySelector('#rk-results-table tbody').innerHTML = '';
 
-  // Aplicar el Método de Runge Kutta de 4to orden
+  // Aplicar el Método de Runge-Kutta de 4to orden
   for (let i = 0; i < n; i++) {
-    const xn = xValues[i];
-    const yn = yValues[i];
+    const xi = xValues[i];
+    const yi = yValues[i];
 
-    // Paso 1: k₁
-    const k1 = h * f(xn, yn);
+    // Cálculo de los coeficientes
+    const k1 = f(xi, yi);
+    const k2 = f(xi + h / 2, yi + (h / 2) * k1);
+    const k3 = f(xi + h / 2, yi + (h / 2) * k2);
+    const k4 = f(xi + h, yi + h * k3);
 
-    // Paso 2: k₂
-    const k2 = h * f(xn + h / 2, yn + k1 / 2);
+    // Mostrar coeficientes en la consola
+    console.log(`Iteración ${i + 1}:`);
+    console.log(`k1 = ${k1}, k2 = ${k2}, k3 = ${k3}, k4 = ${k4}`);
 
-    // Paso 3: k₃
-    const k3 = h * f(xn + h / 2, yn + k2 / 2);
+    // Actualización de yₙ₊₁
+    const yiNext = yi + (h / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
+    const xiNext = xi + h;
 
-    // Paso 4: k₄
-    const k4 = h * f(xn + h, yn + k3);
+    // Guardar valores calculados
+    xValues.push(xiNext);
+    yValues.push(yiNext);
 
-    // Actualización: yₙ₊₁
-    const yn1 = yn + (1 / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
-
-    // Guardar los nuevos valores
-    xValues.push(xn + h);
-    yValues.push(yn1);
-
-    // Mostrar los pasos con MathJax y valores intermedios
+    // Mostrar pasos en MathJax
     const stepText = `
-      <div class="math">
-        <strong>Iteración ${i + 1}:</strong><br>
-        - Valores actuales: \\( x_{${i}} = ${xn.toFixed(2)}, \\quad y_{${i}} = ${yn.toFixed(2)} \\)<br>
-        - Cálculo de \( k_1 \):<br>
-          \\[
-          k_1 = h \\cdot f(x_{${i}}, y_{${i}}) = ${h.toFixed(2)} \\cdot ${f(xn, yn).toFixed(2)} = ${k1.toFixed(2)}
-          \\]
-        - Cálculo de \( k_2 \):<br>
-          \\[
-          k_2 = h \\cdot f\\left(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{k_1}{2}\\right) = ${h.toFixed(2)} \\cdot ${f(xn + h / 2, yn + k1 / 2).toFixed(2)} = ${k2.toFixed(2)}
-          \\]
-        - Cálculo de \( k_3 \):<br>
-          \\[
-          k_3 = h \\cdot f\\left(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{k_2}{2}\\right) = ${h.toFixed(2)} \\cdot ${f(xn + h / 2, yn + k2 / 2).toFixed(2)} = ${k3.toFixed(2)}
-          \\]
-        - Cálculo de \( k_4 \):<br>
-          \\[
-          k_4 = h \\cdot f\\left(x_{${i}} + h, y_{${i}} + k_3\\right) = ${h.toFixed(2)} \\cdot ${f(xn + h, yn + k3).toFixed(2)} = ${k4.toFixed(2)}
-          \\]
-        - Actualización de \( y_{${i + 1}} \):<br>
-          \\[
-          y_{${i + 1}} = y_{${i}} + \\frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4) = ${yn.toFixed(2)} + \\frac{1}{6}(${k1.toFixed(2)} + 2 \\cdot ${k2.toFixed(2)} + 2 \\cdot ${k3.toFixed(2)} + ${k4.toFixed(2)}) = ${yn1.toFixed(2)}
-          \\]
-      </div>
+        <div class="math">
+            <strong>Iteración ${i + 1}:</strong><br>
+            - \\( x_{${i}} = ${xi.toFixed(5)}, \\quad y_{${i}} = ${yi.toFixed(5)} \\) <br>
+            - \\( k_1 = f(x_{${i}}, y_{${i}}) = ${k1.toFixed(5)} \\) <br>
+            - \\( k_2 = f(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{h}{2} k_1) = ${k2.toFixed(5)} \\) <br>
+            - \\( k_3 = f(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{h}{2} k_2) = ${k3.toFixed(5)} \\) <br>
+            - \\( k_4 = f(x_{${i}} + h, y_{${i}} + h k_3) = ${k4.toFixed(5)} \\) <br>
+            - \\( y_{${i+1}} = y_{${i}} + \\frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4) = ${yiNext.toFixed(5)} \\)
+        </div>
     `;
-    stepsContainer.innerHTML += stepText;
+    document.getElementById('rk-steps').innerHTML += stepText;
 
     // Agregar fila a la tabla
-    const row = `
-      <tr>
-        <td>${i + 1}</td>
-        <td>${xn.toFixed(2)}</td>
-        <td>${yn.toFixed(2)}</td>
-        <td>${k1.toFixed(2)}</td>
-        <td>${k2.toFixed(2)}</td>
-        <td>${k3.toFixed(2)}</td>
-        <td>${k4.toFixed(2)}</td>
-        <td>${yn1.toFixed(2)}</td>
-      </tr>
+    document.querySelector('#rk-results-table tbody').innerHTML += `
+        <tr>
+            <td>${i + 1}</td>
+            <td>${xi.toFixed(5)}</td>
+            <td>${yi.toFixed(5)}</td>
+            <td>${k1.toFixed(5)}</td>
+            <td>${k2.toFixed(5)}</td>
+            <td>${k3.toFixed(5)}</td>
+            <td>${k4.toFixed(5)}</td>
+            <td>${yiNext.toFixed(5)}</td>
+            <td>${xiNext.toFixed(5)}</td>
+        </tr>
     `;
-    tableBody.innerHTML += row;
   }
 
-  // Forzar a MathJax a reprocesar el contenido
-  if (MathJax.typeset) {
-    MathJax.typeset();
-  }
-
-  // Graficar los resultados
-  graficarResultadosRungeKutta(xValues, yValues);
-}
-
-function graficarResultadosRungeKutta(xValues, yValues) {
-  const ctx = document.getElementById('rk-grafica').getContext('2d');
-
-  // Si ya existe una gráfica, destruirla
-  if (window.rkChart) {
-    window.rkChart.destroy();
-  }
-
-  // Crear la gráfica
-  window.rkChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: xValues.map(x => x.toFixed(2)),
-      datasets: [{
-        label: 'Aproximación (Runge Kutta 4to Orden)',
-        data: yValues,
-        borderColor: 'var(--green)',
-        fill: false,
-      }]
-    },
-    options: {
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'x'
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: 'y'
-          }
-        }
+  // Actualizar MathJax
+  setTimeout(() => {
+      if (window.MathJax) {
+          MathJax.typesetPromise();
       }
-    }
-  });
+  }, 100);
 }
 
 /* NEWTWON RAPHSON */

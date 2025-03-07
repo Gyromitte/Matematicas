@@ -89,82 +89,93 @@
     </div>
     
 
-  <!-- Contenedor para Runge Kutta -->
-  <div id="runge-kutta" class="tab-content hidden">
-    <div class="main-content">
+<!-- Contenedor para Runge Kutta -->
+<div id="runge-kutta" class="tab-content hidden">
+  <div class="main-content">
       <!-- Columna izquierda (Inputs) -->
       <div class="left-column">
-        <h1>Método de Runge Kutta 4to Orden</h1>
-        <p class="description">
-          Este método emplea cuatro valores intermedios para calcular la solución con mayor precisión:<br>
-          \[
-          y_{n+1} = y_n + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4)
-          \]
-          donde:
-          \[
-          k_1 = f(x_n, y_n)
-          \]
-          \[
-          k_2 = f(x_n + \frac{h}{2}, y_n + \frac{h}{2} k_1)
-          \]
-          \[
-          k_3 = f(x_n + \frac{h}{2}, y_n + \frac{h}{2} k_2)
-          \]
-          \[
-          k_4 = f(x_n + h, y_n + h k_3)
-          \]
-          Ingrese los valores iniciales de \(x\) y \(y\), el tamaño del paso \(h\) y el número de iteraciones.
-        </p>
+          <h1>Método de Runge Kutta 4to Orden</h1>
+          <p class="description">
+              Este método emplea cuatro valores intermedios para calcular la solución con mayor precisión:<br>
+              \[
+              y_{n+1} = y_n + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4)
+              \]
+              donde:
+              \[
+              k_1 = f(x_n, y_n)
+              \]
+              \[
+              k_2 = f(x_n + \frac{h}{2}, y_n + \frac{h}{2} k_1)
+              \]
+              \[
+              k_3 = f(x_n + \frac{h}{2}, y_n + \frac{h}{2} k_2)
+              \]
+              \[
+              k_4 = f(x_n + h, y_n + h k_3)
+              \]
+              Ingrese los valores iniciales de \(x\) y \(y\), el tamaño del paso \(h\) y el valor final de \(x_f\).
+          </p>
+
+          <div class="input-group">
+            <label for="rk-function">Función \( f(x, y) \):</label>
+            <input type="text" id="rk-function" value="2*x*y + 4" placeholder="Ejemplo: 2*x*y + 4">
+        </div>
+
         <div class="input-group">
           <label for="rk-x0">Valor inicial de x (x₀):</label>
-          <input type="number" id="rk-x0" value="0" step="0.1">
+          <input type="number" id="rk-x0" value="1" step="0.01">
         </div>
+        
         <div class="input-group">
-          <label for="rk-y0">Valor inicial de y (y₀):</label>
-          <input type="number" id="rk-y0" value="1" step="0.1">
+            <label for="rk-y0">Valor inicial de y (y₀):</label>
+            <input type="number" id="rk-y0" value="1" step="0.01">
         </div>
+        
         <div class="input-group">
-          <label for="rk-h">Tamaño del paso (h):</label>
-          <input type="number" id="rk-h" value="0.1" step="0.01">
+            <label for="rk-h">Tamaño del paso (h):</label>
+            <input type="number" id="rk-h" value="0.01" step="0.001">
         </div>
+        
         <div class="input-group">
-          <label for="rk-n">Número de pasos (n):</label>
-          <input type="number" id="rk-n" value="10">
+            <label for="rk-xn">Valor final de x (xf):</label>
+            <input type="number" id="rk-xn" value="1.15" step="0.1">
         </div>
-        <button onclick="calculateRungeKutta()">Calcular</button>
+          <button onclick="calculateRungeKutta()">Calcular</button>
       </div>
-  
+
       <!-- Columna derecha (Resultados) -->
       <div class="right-column">
-        <div class="table-container" id="rk-table-container">
-          <h2>Resultados</h2>
-          <table id="rk-results-table">
-            <thead>
-              <tr>
-                <th>Iteración</th>
-                <th>x</th>
-                <th>y</th>
-                <th>k₁</th>
-                <th>k₂</th>
-                <th>k₃</th>
-                <th>k₄</th>
-                <th>yₙ₊₁</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Datos generados dinámicamente -->
-            </tbody>
-          </table>
-        </div>
+          <div class="table-container" id="rk-table-container">
+              <h2>Resultados</h2>
+              <table id="rk-results-table">
+                  <thead>
+                      <tr>
+                          <th>Iteración</th>
+                          <th>x</th>
+                          <th>y</th>
+                          <th>k₁</th>
+                          <th>k₂</th>
+                          <th>k₃</th>
+                          <th>k₄</th>
+                          <th>yₙ₊₁</th>
+                          <th>xₙ₊₁</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <!-- Datos generados dinámicamente -->
+                  </tbody>
+              </table>
+          </div>
       </div>
-    </div> 
-  
-    <!-- Pasos abajo (100% ancho) -->
-    <div class="steps-container" id="rk-steps-container">
+  </div> 
+
+  <!-- Pasos abajo (100% ancho) -->
+  <div class="steps-container" id="rk-steps-container">
       <h2>Pasos Realizados</h2>
       <div id="rk-steps"></div>
-    </div>
   </div>
+</div>
+
   
 
 <!-- Contenedor para Newton Raphson -->
