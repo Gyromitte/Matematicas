@@ -36,136 +36,98 @@ function switchTab(tabId) {
 
 /* EULER MEJORADO */
 function calculateEuler() {
+  // Obtener la función f(x, y) del usuario
+  const fString = document.getElementById('fxy').value;
+  if (!/^[0-9xy+\-*\/().\s^]+$/.test(fString)) {
+      alert("La función ingresada no es válida.");
+      return;
+  }
+  const f = (x, y) => eval(fString); // Evaluar función ingresada
+
   // Obtener valores de los inputs
   const x0 = parseFloat(document.getElementById('x0').value);
   const y0 = parseFloat(document.getElementById('y0').value);
   const h = parseFloat(document.getElementById('h').value);
-  const n = parseInt(document.getElementById('n').value);
+  const xn = parseFloat(document.getElementById('xn').value);
 
-  if (isNaN(x0) || isNaN(y0) || isNaN(h) || isNaN(n)) {
-    alert("Por favor, ingresa valores numéricos válidos en todos los campos.");
-    return;
+  // Validar entradas
+  if (isNaN(x0) || isNaN(y0) || isNaN(h) || isNaN(xn)) {
+      alert("Por favor, ingresa valores numéricos válidos.");
+      return;
   }
-
   if (h <= 0) {
-    alert("El valor de h debe ser mayor que cero.");
-    return;
+      alert("El valor de h debe ser mayor que cero.");
+      return;
+  }
+  if (xn <= x0) {
+      alert("El valor final xn debe ser mayor que x0.");
+      return;
   }
 
-  if (n <= 0) {
-    alert("El número de iteraciones (n) debe ser mayor que cero.");
-    return;
-  }
-
-  // Definir la EDO: dy/dx = f(x, y)
-  function f(x, y) {
-    return x + y; // Ejemplo: dy/dx = x + y
-  }
+  // Calcular el número de iteraciones
+  const n = Math.ceil((xn - x0) / h);
 
   // Arrays para almacenar los resultados
   const xValues = [x0];
   const yValues = [y0];
 
-  // Contenedores para mostrar los pasos y la tabla
-  const stepsContainer = document.getElementById('steps');
-  const tableBody = document.querySelector('#results-table tbody');
-  stepsContainer.innerHTML = ''; // Limpiar pasos anteriores
-  tableBody.innerHTML = ''; // Limpiar tabla anterior
+  // Limpiar tabla y pasos anteriores
+  document.getElementById('steps').innerHTML = '';
+  document.querySelector('#results-table tbody').innerHTML = '';
 
   // Aplicar el Método de Euler Mejorado
   for (let i = 0; i < n; i++) {
-    const xn = xValues[i];
-    const yn = yValues[i];
+      const xnCurrent = xValues[i];
+      const yn = yValues[i];
+      const xnNext = xnCurrent + h;
 
-    // Paso de predicción
-    const fxnyn = f(xn, yn); // f(xn, yn)
-    const yPred = yn + h * fxnyn; // y_pred = yn + h * f(xn, yn)
+      // Paso de predicción
+      const fxnyn = f(xnCurrent, yn);
+      const yPred = yn + h * fxnyn;
 
-    // Paso de corrección
-    const fxn1ypred = f(xn + h, yPred); // f(xn + h, y_pred)
-    const yn1 = yn + (h / 2) * (fxnyn + fxn1ypred); // yn1 = yn + (h/2) * [f(xn, yn) + f(xn + h, y_pred)]
+      // Paso de corrección
+      const fxn1ypred = f(xnNext, yPred);
+      const yn1 = yn + (h / 2) * (fxnyn + fxn1ypred);
 
-    // Guardar los nuevos valores
-    xValues.push(xn + h);
-    yValues.push(yn1);
+      // Guardar los nuevos valores
+      xValues.push(xnNext);
+      yValues.push(yn1);
 
-    // Mostrar los pasos con MathJax y valores intermedios
-    const stepText = `
-      <div class="math">
-        <strong>Iteración ${i + 1}:</strong><br>
-        - Valores actuales: \\( x_{${i}} = ${xn.toFixed(2)}, \\quad y_{${i}} = ${yn.toFixed(2)} \\)<br>
-        - Cálculo de la predicción:<br>
-          \\[
-          y_{\\text{pred}} = y_{${i}} + h \\cdot f(x_{${i}}, y_{${i}}) = ${yn.toFixed(2)} + ${h.toFixed(2)} \\cdot ${fxnyn.toFixed(2)} = ${yPred.toFixed(2)}
-          \\]
-        - Cálculo de la corrección:<br>
-          \\[
-          y_{${i + 1}} = y_{${i}} + \\frac{h}{2} \\left[ f(x_{${i}}, y_{${i}}) + f(x_{${i + 1}}, y_{\\text{pred}}) \\right] = ${yn.toFixed(2)} + \\frac{${h.toFixed(2)}}{2} \\left[ ${fxnyn.toFixed(2)} + ${fxn1ypred.toFixed(2)} \\right] = ${yn1.toFixed(2)}
-          \\]
-      </div>
-    `;
-    stepsContainer.innerHTML += stepText;
+      // Mostrar los pasos con MathJax
+      const stepText = `
+          <div class="math">
+              <strong>Iteración ${i + 1}:</strong><br>
+              - \( x_{${i}} = ${xnCurrent.toFixed(5)}, \quad y_{${i}} = ${yn.toFixed(5)} \)<br>
+              - \( x_{${i+1}} = x_{${i}} + h = ${xnCurrent.toFixed(5)} + ${h.toFixed(5)} = ${xnNext.toFixed(5)} \)<br>
+              - \( y_{\text{pred}} = y_{${i}} + h \cdot f(x_{${i}}, y_{${i}}) = ${yPred.toFixed(5)} \)<br>
+              - \( y_{${i+1}} = y_{${i}} + \frac{h}{2} \left[ f(x_{${i}}, y_{${i}}) + f(x_{${i+1}}, y_{\text{pred}}) \right] = ${yn1.toFixed(5)} \)
+          </div>
+      `;
+      document.getElementById('steps').innerHTML += stepText;
 
-    // Agregar fila a la tabla
-    const row = `
-      <tr>
-        <td>${i + 1}</td>
-        <td>${xn.toFixed(2)}</td>
-        <td>${yn.toFixed(2)}</td>
-        <td>${yPred.toFixed(2)}</td>
-        <td>${yn1.toFixed(2)}</td>
-      </tr>
-    `;
-    tableBody.innerHTML += row;
+      // Agregar fila a la tabla
+      document.querySelector('#results-table tbody').innerHTML += `
+          <tr>
+              <td>${i + 1}</td>
+              <td>${xnCurrent.toFixed(5)}</td>
+              <td>${yn.toFixed(5)}</td>
+              <td>${yPred.toFixed(5)}</td>
+              <td>${yn1.toFixed(5)}</td>
+              <td>${xnNext.toFixed(5)}</td>
+          </tr>
+      `;
   }
 
-  // Forzar a MathJax a reprocesar el contenido
+  // Forzar MathJax a procesar
   if (MathJax.typeset) {
-    MathJax.typeset();
+      MathJax.typeset();
   }
+}
 
   // Graficar los resultados
   graficarResultados(xValues, yValues);
-}
 
-function graficarResultados(xValues, yValues) {
-  const ctx = document.getElementById('grafica').getContext('2d');
 
-  // Si ya existe una gráfica, destruirla
-  if (window.myChart) {
-    window.myChart.destroy();
-  }
-
-  // Crear la gráfica
-  window.myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: xValues.map(x => x.toFixed(2)),
-      datasets: [{
-        label: 'Aproximación (Euler Mejorado)',
-        data: yValues,
-        borderColor: 'var(--green)',
-        fill: false,
-      }]
-    },
-    options: {
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'x'
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: 'y'
-          }
-        }
-      }
-    }
-  });
-}
 
 /* RUNGE KUTTA 4TO ORDEN */
 function calculateRungeKutta() {
