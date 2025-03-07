@@ -95,14 +95,14 @@ function calculateEuler() {
 
       // Mostrar los pasos con MathJax
       const stepText = `
-          <div class="math">
-              <strong>Iteración ${i + 1}:</strong><br>
-              - \\( x_{${i}} = ${xnCurrent.toFixed(5)}, \\quad y_{${i}} = ${yn.toFixed(5)} \\) <br>
-              - \\( x_{${i+1}} = x_{${i}} + h = ${xnCurrent.toFixed(5)} + ${h.toFixed(5)} = ${xnNext.toFixed(5)} \\) <br>
-              - \\( y_{\\text{pred}} = y_{${i}} + h \\cdot f(x_{${i}}, y_{${i}}) = ${yPred.toFixed(5)} \\) <br>
-              - \\( y_{${i+1}} = y_{${i}} + \\frac{h}{2} \\left[ f(x_{${i}}, y_{${i}}) + f(x_{${i+1}}, y_{\\text{pred}}) \\right] = ${yn1.toFixed(5)} \\)
-          </div>
-      `;
+      <div class="math">
+          <strong>Iteración ${i + 1}:</strong><br>
+          - \\( x_{${i}} = ${xnCurrent.toFixed(5)}, \\quad y_{${i}} = ${yn.toFixed(5)} \\) <br>
+          - \\( x_{${i+1}} = x_{${i}} + h = ${xnCurrent.toFixed(5)} + ${h.toFixed(5)} = ${xnNext.toFixed(5)} \\) <br>
+          - \\( y_{\\text{pred}} = y_{${i}} + h \\cdot f(x_{${i}}, y_{${i}}) = ${yn.toFixed(5)} + ${h.toFixed(5)} \\cdot f(${xnCurrent.toFixed(5)}, ${yn.toFixed(5)}) = ${yPred.toFixed(5)} \\) <br>
+          - \\( y_{${i+1}} = y_{${i}} + \\frac{h}{2} \\left[ f(x_{${i}}, y_{${i}}) + f(x_{${i+1}}, y_{\\text{pred}}) \\right] = ${yn.toFixed(5)} + \\frac{${h.toFixed(5)}}{2} \\left[ f(${xnCurrent.toFixed(5)}, ${yn.toFixed(5)}) + f(${xnNext.toFixed(5)}, ${yPred.toFixed(5)}) \\right] = ${yn1.toFixed(5)} \\)
+      </div>
+    `;
       document.getElementById('steps').innerHTML += stepText;
 
       // Agregar fila a la tabla
@@ -200,11 +200,11 @@ function calculateRungeKutta() {
         <div class="math">
             <strong>Iteración ${i + 1}:</strong><br>
             - \\( x_{${i}} = ${xi.toFixed(5)}, \\quad y_{${i}} = ${yi.toFixed(5)} \\) <br>
-            - \\( k_1 = f(x_{${i}}, y_{${i}}) = ${k1.toFixed(5)} \\) <br>
-            - \\( k_2 = f(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{h}{2} k_1) = ${k2.toFixed(5)} \\) <br>
-            - \\( k_3 = f(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{h}{2} k_2) = ${k3.toFixed(5)} \\) <br>
-            - \\( k_4 = f(x_{${i}} + h, y_{${i}} + h k_3) = ${k4.toFixed(5)} \\) <br>
-            - \\( y_{${i+1}} = y_{${i}} + \\frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4) = ${yiNext.toFixed(5)} \\)
+            - \\( k_1 = f(x_{${i}}, y_{${i}}) = f(${xi.toFixed(5)}, ${yi.toFixed(5)}) = ${k1.toFixed(5)} \\) <br>
+            - \\( k_2 = f\\left(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{h}{2} k_1\\right) = f\\left(${(xi + h / 2).toFixed(5)}, ${(yi + (h / 2) * k1).toFixed(5)}\\right) = ${k2.toFixed(5)} \\) <br>
+            - \\( k_3 = f\\left(x_{${i}} + \\frac{h}{2}, y_{${i}} + \\frac{h}{2} k_2\\right) = f\\left(${(xi + h / 2).toFixed(5)}, ${(yi + (h / 2) * k2).toFixed(5)}\\right) = ${k3.toFixed(5)} \\) <br>
+            - \\( k_4 = f\\left(x_{${i}} + h, y_{${i}} + h k_3\\right) = f\\left(${(xi + h).toFixed(5)}, ${(yi + h * k3).toFixed(5)}\\right) = ${k4.toFixed(5)} \\) <br>
+            - \\( y_{${i+1}} = y_{${i}} + \\frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4) = ${yi.toFixed(5)} + \\frac{${h.toFixed(5)}}{6} (${k1.toFixed(5)} + 2 \\cdot ${k2.toFixed(5)} + 2 \\cdot ${k3.toFixed(5)} + ${k4.toFixed(5)}) = ${yiNext.toFixed(5)} \\)
         </div>
     `;
     document.getElementById('rk-steps').innerHTML += stepText;
