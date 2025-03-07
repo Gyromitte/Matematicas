@@ -33,7 +33,7 @@
               y_{n+1} = y_n + \frac{h}{2} \left( f(x_n, y_n) + f(x_{n+1}, y_{\text{pred}}) \right)
               \]
               donde \( y_{\text{pred}} = y_n + h f(x_n, y_n) \) es un valor de predicción.  
-              Ingrese los valores iniciales de \(x\) y \(y\), el tamaño del paso \(h\) y el número de iteraciones.
+              Ingrese la funcion, los valores iniciales de \(x\) y \(y\), el tamaño del paso \(h\) y el valor de \(xn\).
             </p>
             <label for="fxy">Función \( f(x, y) \):</label>
             <input type="text" id="fxy" placeholder="Ingresa f(x, y), ej: 2*x*y + 4" required>
@@ -69,6 +69,7 @@
                     <th>y</th>
                     <th>Predicción (\( y_{\text{pred}} \))</th>
                     <th>Corrección (\( y_{n+1} \))</th>
+                    <th>(\( x_{n+1} \))</th>
                   </tr>
                 </thead>
                 <tbody>

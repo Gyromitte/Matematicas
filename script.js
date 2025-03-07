@@ -97,10 +97,10 @@ function calculateEuler() {
       const stepText = `
           <div class="math">
               <strong>Iteración ${i + 1}:</strong><br>
-              - \( x_{${i}} = ${xnCurrent.toFixed(5)}, \quad y_{${i}} = ${yn.toFixed(5)} \)<br>
-              - \( x_{${i+1}} = x_{${i}} + h = ${xnCurrent.toFixed(5)} + ${h.toFixed(5)} = ${xnNext.toFixed(5)} \)<br>
-              - \( y_{\text{pred}} = y_{${i}} + h \cdot f(x_{${i}}, y_{${i}}) = ${yPred.toFixed(5)} \)<br>
-              - \( y_{${i+1}} = y_{${i}} + \frac{h}{2} \left[ f(x_{${i}}, y_{${i}}) + f(x_{${i+1}}, y_{\text{pred}}) \right] = ${yn1.toFixed(5)} \)
+              - \\( x_{${i}} = ${xnCurrent.toFixed(5)}, \\quad y_{${i}} = ${yn.toFixed(5)} \\) <br>
+              - \\( x_{${i+1}} = x_{${i}} + h = ${xnCurrent.toFixed(5)} + ${h.toFixed(5)} = ${xnNext.toFixed(5)} \\) <br>
+              - \\( y_{\\text{pred}} = y_{${i}} + h \\cdot f(x_{${i}}, y_{${i}}) = ${yPred.toFixed(5)} \\) <br>
+              - \\( y_{${i+1}} = y_{${i}} + \\frac{h}{2} \\left[ f(x_{${i}}, y_{${i}}) + f(x_{${i+1}}, y_{\\text{pred}}) \\right] = ${yn1.toFixed(5)} \\)
           </div>
       `;
       document.getElementById('steps').innerHTML += stepText;
@@ -118,11 +118,14 @@ function calculateEuler() {
       `;
   }
 
-  // Forzar MathJax a procesar
-  if (MathJax.typeset) {
-      MathJax.typeset();
-  }
+  // Esperar un pequeño tiempo y luego procesar MathJax
+  setTimeout(() => {
+      if (window.MathJax) {
+          MathJax.typesetPromise();
+      }
+  }, 100);
 }
+
 
   // Graficar los resultados
   graficarResultados(xValues, yValues);
